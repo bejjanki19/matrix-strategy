@@ -1,38 +1,35 @@
 name: Python Matrix Build
 
 on:
-push:
+  push:
+    branches: [main]
 
 jobs:
-build:
-runs-on: ${{ matrix.os }}
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        python-version:
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
 
-strategy:
-  fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  matrix:
-    os:
-      - ubuntu-latest
-      - macos-latest
-      - windows-latest
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    python-version:
-      - '3.9'
-      - '3.10'
-      - '3.11'
-      - '3.12'
-
-steps:
-  - name: Checkout
-    uses: actions/checkout@v4
-
-  - name: Set up Python
-    uses: actions/setup-python@v4
-    with:
-      python-version: ${{ matrix.python-version }}
-
-  - name: Verify Python
-    run: |
-      python --version
-      echo "Workflow Success"
-
+      - name: Verify Python
+        run: |
+          python --version
+          echo "Workflow Success"
