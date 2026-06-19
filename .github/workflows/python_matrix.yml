@@ -1,9 +1,3 @@
-cd ~/matrix-strategy
-
-vim .github/workflows/python_matrix.yml
-
-Paste exactly:
-
 name: Python Matrix Build
 
 on:
